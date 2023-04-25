@@ -442,12 +442,27 @@ class Restaurant extends Resort{
     return ('Thank you for choosing us! Have a great day!');
   }
 
+  Reservation(): void {
+    this.withReservation === true ? (this.SeatingCapacity-this.totalGuests) : this.SeatingCapacity;
+  }
+  cancelReservation(): void {
+    this.withReservation === true ? (this.SeatingCapacity + this.totalGuests) : this.SeatingCapacity;
+  }
+  
+  verifyIdentification(): string {
+    if (this.identification === true)
+    { return('Verified')} 
+    else
+    {return ('Unfortunately we cannot accomodate you.')}
+  }
+
   //override
   
   checkAdditionalCharges(): number {
     let addedcharges = 0
     this.withPets === true ? addedcharges = 150 : addedcharges
     this.withProhibitedObjects === true ? addedcharges + 200 : addedcharges
+    this.withReservation === true ? addedcharges + 200 : addedcharges
     return addedcharges
   }
 
@@ -527,6 +542,7 @@ class Restaurant extends Resort{
   
   Alcohol():number{
     if (this.guestAge >= 21){
+      console.log(`Here is your glass of wine ${this.guestName}`)
       return 50
     }
     console.log('Sorry, you are below the age of 21. We cannot give you alcohol.')
@@ -546,3 +562,5 @@ MacDoe.DisplayMenu(1)
 console.log(MacDoe.checkAdditionalCharges())
 MacDoe.raffle()
 console.log (MacDoe.Calculatetotalbill(1,3,2000))
+MacDoe.Alcohol()
+MacDoe.Water()
