@@ -251,13 +251,13 @@ public generateReceipt(): string {
 }
 
 public billOut(TotalMoney: number): string {
-  if (TotalMoney === this.calculateBill(this.numOfDays)) {
+  if (TotalMoney === this.calculateBill()) {
     return (`Your payment of ${TotalMoney} Php was succesful.`)
-  } else if (TotalMoney > this.calculateBill(this.numOfDays)) {
-    let change: number = TotalMoney - this.calculateBill(this.numOfDays)
+  } else if (TotalMoney > this.calculateBill()) {
+    let change: number = TotalMoney - this.calculateBill()
     return (`Your change is ${change} Php.`)
   } else {
-    let balance: number = this.calculateBill(this.numOfDays) - TotalMoney
+    let balance: number = this.calculateBill() - TotalMoney
     return (`Your balance is ${balance}.`)
   }
 }
