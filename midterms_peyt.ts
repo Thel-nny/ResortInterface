@@ -207,12 +207,8 @@ public cancelReservation(): void {
 }
 
 public checkPaymentMethod(): string {
-  if (this.paymentMethod.includes(this.hotelPayments)) {
-    return (`You can pay us though your ${this.paymentMethod}`)
-  } else {
     return (`We accept payments thru ${this.hotelPayments}. Thank You!`)
   }
-}
 
 public checkForDiscount():number {
   let discount: number = 0;
