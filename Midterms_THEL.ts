@@ -140,7 +140,7 @@ abstract class Resort implements ResortInterface {
 
 class Restaurant extends Resort{
 
-  checkIn(): string {
+  public checkIn(): string {
     if(this.verifyIdentification()=== 'Verified'){
     this.SeatingCapacity - this.totalGuests;
     this.SeatingCapacity != 0 ? console.log('You may take a seat') : console.log('Sorry we cannot seat you yet. Please wait for a few minutes');
@@ -148,19 +148,19 @@ class Restaurant extends Resort{
       return(`I'm sorry${this.guestName} we cannot seat you without verifying your identity.`);
   }
 
-  checkOut(): string {
+  public checkOut(): string {
     this.SeatingCapacity+= this.totalGuests;
     return ('Thank you for choosing us! Have a great day!');
   }
 
-  Reservation(): void {
+  public Reservation(): void {
     this.withReservation === true ? (this.SeatingCapacity-this.totalGuests) : this.SeatingCapacity;
   }
-  cancelReservation(): void {
+  public cancelReservation(): void {
     this.withReservation === true ? (this.SeatingCapacity + this.totalGuests) : this.SeatingCapacity;
   }
   
-  verifyIdentification(): string {
+  public verifyIdentification(): string {
     if (this.identification === true)
     { return('Verified')} 
     else
@@ -169,7 +169,7 @@ class Restaurant extends Resort{
 
   //override
   
-  checkAdditionalCharges(): number {
+  public checkAdditionalCharges(): number {
     let addedcharges = 0
     this.withPets === true ? addedcharges = 150 : addedcharges
     this.withProhibitedObjects === true ? addedcharges + 200 : addedcharges
@@ -178,7 +178,7 @@ class Restaurant extends Resort{
   }
 
   //overrides
-  checkForDiscount(): number {
+  public checkForDiscount(): number {
     let age = this.guestAge;
     let discount: number = 0;
     if ( age <= 2 ) {
@@ -192,14 +192,14 @@ class Restaurant extends Resort{
     this.pwd === true ? discount + 5 : discount
     return discount;
   }
-  checkAvailablity(): boolean {
+  public checkAvailablity(): boolean {
     if (this.SeatingCapacity-this.totalGuests != 0){
       return true
     }
     return false
   }
   
-  needOfAssistance(): boolean {
+  public needOfAssistance(): boolean {
     if (this.guestAge >= 60) {
       return true;
     } else if (this.pwd === true) {
@@ -209,7 +209,7 @@ class Restaurant extends Resort{
     }
   }
 
-  DisplayMenu(menu: number): void{
+  public DisplayMenu(menu: number): void{
   let price = 0
   let menu1 = ['large fries ','2 Burgers,Drinks']
   let menu2 = ['Pizza ', 'Chicken Fingers ', 'Lassagna ','Cucumber Pitcher']
@@ -228,7 +228,7 @@ class Restaurant extends Resort{
   }
   }
   
-  raffle():void{
+  public raffle():void{
     let rafflenumber: number = Math.floor(Math.random()*21)
     let Customernumber: number = Math.floor(Math.random()*21)
     if (rafflenumber === Customernumber){
@@ -236,7 +236,9 @@ class Restaurant extends Resort{
     }
     console.log(`Don't feel too bad ${this.guestName}, You can try again later.`)
   }
-  Calculatetotalbill(Order:number, Quantity:number, TOTALMONEY: number):string{
+  
+  
+  public Calculatetotalbill(Order:number, Quantity:number, TOTALMONEY: number):string{
     let price:number = 0
     if(Order === 1){
       price = 280
@@ -251,7 +253,7 @@ class Restaurant extends Resort{
     return (`Yiur total bill is: ${bill}`)
   }
   
-  Alcohol():number{
+  public Alcohol():number{
     if (this.guestAge >= 21){
       console.log(`Here is your glass of wine ${this.guestName}`)
       return 50
@@ -260,7 +262,7 @@ class Restaurant extends Resort{
     return 0
   }
   
-  Water():void{
+  public Water():void{
     console.log(`Here is your glass of water ${this.guestName}`)
   }
 

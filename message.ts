@@ -3,7 +3,7 @@
 
 import { resolveObjectURL } from "buffer";
 
-interface ResortInterface {
+interface ResortEstablishments {
   guestName: string;
   guestAge: number;
   telephoneNumber: string;
@@ -36,7 +36,7 @@ interface ResortInterface {
 }
 
 //parent class
-abstract class Resort implements ResortInterface {
+abstract class Resort implements ResortEstablishments {
 
   public guestName: string;
   public guestAge: number;
@@ -82,55 +82,55 @@ abstract class Resort implements ResortInterface {
     this.ParkingLotCapacity = ParkingLotCapacity;
   }
 
-  checkIn(): string {
+  public checkIn(): string {
     return(`${this.guestName} successfullly checked in!`);
   }
-  checkOut(): string {
+  public checkOut(): string {
     return(`${this.guestName} successfullly checked out!`)
   }
-  confirmReservation(): void {
+  public confirmReservation(): void {
     this.withReservation === true ? (this.SeatingCapacity-this.totalGuests) : this.SeatingCapacity;
   }
-  cancelReservation(): void {
+  public cancelReservation(): void {
     this.withReservation === true ? (this.SeatingCapacity + this.totalGuests) : this.SeatingCapacity;
   }
   
-  verifyIdentification(): string {
+  public verifyIdentification(): string {
     if (this.identification === true)
     { return('Verified')} 
     else
     {return ('Unfortunately we cannot accomodate you.')}
   }
   
-  displayBill(Bill:number): string {
+  public displayBill(Bill:number): string {
     return (`
     Guest Name: ${this.guestName}
     Total Bill: ${Bill}`)
   }
-  checkParkingAvailability(parking: number):boolean {
+  public checkParkingAvailability(parking: number):boolean {
     if (this.ParkingLotCapacity === parking) {
       return false
     } else {
       return true
     }
   }
-  checkAdditionalCharges(): number {
+  public checkAdditionalCharges(): number {
     return 0
   }
-  checkForDiscount():number {
+  public checkForDiscount():number {
     return 0
   }
-  checkAvailablity(): boolean {
+  public checkAvailablity(): boolean {
     return true
   }
-  checkPaymentMethod(): string {
+  public checkPaymentMethod(): string {
     return (`Payment methods here.`)
   }
-  billOut(TotalMoney: number): string {
+  public billOut(TotalMoney: number): string {
     return (`You paid Php ${TotalMoney}.`)
   }
   
-  needOfAssistance(): boolean {
+  public needOfAssistance(): boolean {
     if (this.guestAge >= 60) {
       return true;
     } else if (this.pwd === true) {
@@ -146,9 +146,9 @@ abstract class Resort implements ResortInterface {
 // Manang Peyt
 class Hotel extends Resort {
 
-  rooms: number;
-  hotelPayments: string; 
-  numOfDays: number;
+  public rooms: number;
+  public hotelPayments: string; 
+  public numOfDays: number;
 
   constructor (guestName: string,
     guestAge: number,
@@ -224,17 +224,21 @@ class Hotel extends Resort {
     let discount: number = 0;
     if (this.guestAge <= 5 && this.guestAge >= 60) {
       discount = 0.50
+      console.log(`50% discount.`)
     } else if (this.guestAge >= 6 && this.guestAge >= 10){
       discount = 0.25
+      console.log(`25% discount.`)
     } else if (this.pwd === true) {
       discount = 0.45
+      console.log(`45% discount.`)
     } else {
       discount = 0
+      console.log(`Not eligible for discount.`)
     }
     return discount;
   }
 
-  private calculateBill(days: number): number {
+  private calculateBill(days = this.numOfDays): number {
     let bill: number =  days * 1000;
     let discount: number = bill * this.checkForDiscount();
     let totalBill: number = bill - discount;
@@ -249,7 +253,7 @@ class Hotel extends Resort {
     Subtotal: ${bill} Php
     Discount: ${discount} Php
     
-    TOTAL: ${this.calculateBill(this.numOfDays)} Php`)
+    TOTAL: ${this.calculateBill()} Php`)
   }
 
   public billOut(TotalMoney: number): string {
@@ -270,7 +274,7 @@ class Hotel extends Resort {
 
   public getGuestInfo(): string {
     return (`
-    Passenger Name: ${this.guestName}
+    Guest Name: ${this.guestName}
     Contact Number: ${this.telephoneNumber}`)
   }
   
@@ -305,19 +309,19 @@ console.log(Okda.specialPromo("sanaolGABALIK"));
 //Pat
 class Recreation extends Resort {
 
-  confirmReservation(): void {
+  public confirmReservation(): void {
       this.withReservation === true ? this.SeatingCapacity - this.totalGuests : this.SeatingCapacity;
   }
 
-  cancelReservation(): void {
+  public cancelReservation(): void {
       this.withReservation === false ? this.SeatingCapacity + this.totalGuests : this.SeatingCapacity;
   }
   
-  checkAccomodation(accomodation: string): any {
+  public checkAccomodation(accomodation: string): any {
 
   }
 
-  calculateAccomodationFee(): number {
+  public calculateAccomodationFee(): number {
     if ( this.checkAccomodation('room') ) {
       return 1500;
     } else if ( this.checkAccomodation('small cottage') ) {
@@ -331,15 +335,15 @@ class Recreation extends Resort {
     }
   }
 
-  checkForOutsideFood(food: boolean): any {
+  public checkForOutsideFood(food: boolean): any {
     
   }
 
-  checkActivity(activity: string): any {
+  public checkActivity(activity: string): any {
 
   }
 
-  calculateActivityFee(): number {
+  public calculateActivityFee(): number {
     let activityFee: number = 0;
     if (this.checkActivity('swim')) {
       activityFee = 80;
@@ -352,7 +356,7 @@ class Recreation extends Resort {
     return activityFee;
   }
 
-  verifyIdentification(): string {
+  public verifyIdentification(): string {
     if ( this.identification === true ) {
       return 'Verified';
     } else {
@@ -360,7 +364,7 @@ class Recreation extends Resort {
     }
   }
   
-  checkForDiscount(): number {
+  public checkForDiscount(): number {
     let age = this.guestAge;
     let discount: number = 0;
 
@@ -375,7 +379,7 @@ class Recreation extends Resort {
     return discount;
   }
 
-  checkAdditionalCharges(): number {
+  public checkAdditionalCharges(): number {
     let additionalCharges: number;
     
     if ( this.checkForOutsideFood(false) ) {
@@ -387,14 +391,14 @@ class Recreation extends Resort {
     return additionalCharges;
   }
 
-  calculateTotalAmmount(): number {
+  public calculateTotalAmmount(): number {
       let totalPayment:number = (this.totalGuests * 100 - this.checkForDiscount()) + this.checkAdditionalCharges() 
       + this.calculateActivityFee() + this.calculateAccomodationFee();
 
       return totalPayment;
   }
 
-  DisplayBill(): string {
+  public DisplayBill(): string {
     return (`
     Name: ${this.guestName}
     Discount: ${this.checkForDiscount}
@@ -402,7 +406,7 @@ class Recreation extends Resort {
     `);
   }
 
-  billOut(TotalMoney: number): string {
+  public billOut(TotalMoney: number): string {
     if (TotalMoney != this.calculateTotalAmmount()) {
       if (TotalMoney < this.calculateTotalAmmount()) {
         return `You are missing ${this.calculateTotalAmmount() - TotalMoney} from your payment`
@@ -429,7 +433,7 @@ console.log(Joker.billOut(10000));
 //thelnu
 class Restaurant extends Resort{
 
-  checkIn(): string {
+  public checkIn(): string {
     if(this.verifyIdentification()=== 'Verified'){
     this.SeatingCapacity - this.totalGuests;
     this.SeatingCapacity != 0 ? console.log('You may take a seat') : console.log('Sorry we cannot seat you yet. Please wait for a few minutes');
@@ -437,19 +441,19 @@ class Restaurant extends Resort{
       return(`I'm sorry${this.guestName} we cannot seat you without verifying your identity.`);
   }
 
-  checkOut(): string {
+  public checkOut(): string {
     this.SeatingCapacity+= this.totalGuests;
     return ('Thank you for choosing us! Have a great day!');
   }
 
-  Reservation(): void {
+  public Reservation(): void {
     this.withReservation === true ? (this.SeatingCapacity-this.totalGuests) : this.SeatingCapacity;
   }
-  cancelReservation(): void {
+  public cancelReservation(): void {
     this.withReservation === true ? (this.SeatingCapacity + this.totalGuests) : this.SeatingCapacity;
   }
   
-  verifyIdentification(): string {
+  public verifyIdentification(): string {
     if (this.identification === true)
     { return('Verified')} 
     else
@@ -458,7 +462,7 @@ class Restaurant extends Resort{
 
   //override
   
-  checkAdditionalCharges(): number {
+  public checkAdditionalCharges(): number {
     let addedcharges = 0
     this.withPets === true ? addedcharges = 150 : addedcharges
     this.withProhibitedObjects === true ? addedcharges + 200 : addedcharges
@@ -467,7 +471,7 @@ class Restaurant extends Resort{
   }
 
   //overrides
-  checkForDiscount(): number {
+  public checkForDiscount(): number {
     let age = this.guestAge;
     let discount: number = 0;
     if ( age <= 2 ) {
@@ -481,14 +485,14 @@ class Restaurant extends Resort{
     this.pwd === true ? discount + 5 : discount
     return discount;
   }
-  checkAvailablity(): boolean {
+  public checkAvailablity(): boolean {
     if (this.SeatingCapacity-this.totalGuests != 0){
       return true
     }
     return false
   }
   
-  needOfAssistance(): boolean {
+  public needOfAssistance(): boolean {
     if (this.guestAge >= 60) {
       return true;
     } else if (this.pwd === true) {
@@ -498,7 +502,7 @@ class Restaurant extends Resort{
     }
   }
 
-  DisplayMenu(menu: number): void{
+  public DisplayMenu(menu: number): void{
   let price = 0
   let menu1 = ['large fries ','2 Burgers,Drinks']
   let menu2 = ['Pizza ', 'Chicken Fingers ', 'Lassagna ','Cucumber Pitcher']
@@ -517,7 +521,7 @@ class Restaurant extends Resort{
   }
   }
   
-  raffle():void{
+  public raffle():void{
     let rafflenumber: number = Math.floor(Math.random()*21)
     let Customernumber: number = Math.floor(Math.random()*21)
     if (rafflenumber === Customernumber){
@@ -525,7 +529,9 @@ class Restaurant extends Resort{
     }
     console.log(`Don't feel too bad ${this.guestName}, You can try again later.`)
   }
-  Calculatetotalbill(Order:number, Quantity:number, TOTALMONEY: number):string{
+  
+  
+  public Calculatetotalbill(Order:number, Quantity:number, TOTALMONEY: number):string{
     let price:number = 0
     if(Order === 1){
       price = 280
@@ -540,7 +546,7 @@ class Restaurant extends Resort{
     return (`Yiur total bill is: ${bill}`)
   }
   
-  Alcohol():number{
+  public Alcohol():number{
     if (this.guestAge >= 21){
       console.log(`Here is your glass of wine ${this.guestName}`)
       return 50
@@ -549,7 +555,7 @@ class Restaurant extends Resort{
     return 0
   }
   
-  Water():void{
+  public Water():void{
     console.log(`Here is your glass of water ${this.guestName}`)
   }
 
