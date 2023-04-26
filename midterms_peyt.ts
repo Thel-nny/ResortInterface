@@ -216,18 +216,12 @@ public checkPaymentMethod(): string {
 
 public checkForDiscount():number {
   let discount: number = 0;
-  if (this.guestAge <= 5 && this.guestAge >= 60) {
-    discount = 0.50
-    console.log(`50% discount.`)
-  } else if (this.guestAge >= 6 && this.guestAge >= 10){
-    discount = 0.25
-    console.log(`25% discount.`)
-  } else if (this.pwd === true) {
+  if (this.pwd === true) {
     discount = 0.45
-    console.log(`45% discount.`)
+  } else if (this.guestAge <= 5 || this.guestAge >= 60) {
+    discount = 0.50
   } else {
     discount = 0
-    console.log(`Not eligible for discount.`)
   }
   return discount;
 }
